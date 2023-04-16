@@ -9,8 +9,7 @@
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg" 
-    :class="navbarClasses">
+    <nav :class="[`navbar-${theme}`, `bg-${theme}`, 'navbar', 'navbar-expand-lg']">
         <div class="container-fluid">
             <a href="#" class="navbar-brand">My Vue </a>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -24,8 +23,8 @@
             </ul>
             <form class="d-flex">
                 <button class="btn btn-primary"
-                @click.prevent="useDarkNavbar = !useDarkNavbar"
-                >{{useDarkNavbar ? 'Light' : 'Dark'}}</button>
+                @click.prevent="changeTheme()"
+                >{{theme}}</button>
             </form>
         </div>
     </nav>
@@ -36,27 +35,27 @@
 
     <script>
         Vue.createApp({
-            computed: {
-                navbarClasses () {
-                    return {
-                        'navbar-dark': this.useDarkNavbar,  
-                        'bg-dark': this.useDarkNavbar,
-                        'navbar-light': !this.useDarkNavbar,
-                        'bg-light': !this.useDarkNavbar
-                    }
-                }
-            },
+            // computed: {
+            //     navbarClasses () {
+            //         return {
+            //             'navbar-dark': this.useDarkNavbar,  
+            //             'bg-dark': this.useDarkNavbar,
+            //             'navbar-light': !this.useDarkNavbar,
+            //             'bg-light': !this.useDarkNavbar
+            //         }
+            //     }
+            // },
             data() {
                 return {
                     activePage: 0,
-                    useDarkNavbar: false,
+                    theme: 'light',
                     pages: [
                         {
                             pageTitle: 'Home Page',
                             content: 'This is home page',
                             link: {text:'Home', url:'index.html'}
                         },
-                        {
+                         {
                             pageTitle: 'About Page',
                             content: 'This is about page',
                             link: {text:'About', url:'about.html'},
@@ -67,6 +66,15 @@
                             link: {text:'Contact', url:'contact.html'}
                         }
                     ]
+                }
+            },
+            methods: {
+                changeTheme() {
+                    let theme = 'light'
+
+                    if (this.theme == 'light') { theme = 'dark' }
+                    
+                    this.theme = theme
                 }
             }
         }).mount('body')
